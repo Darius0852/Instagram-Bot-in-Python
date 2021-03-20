@@ -26,10 +26,10 @@ class InstaBot():
         self.driver.switch_to_window(self.driver.window_handles[1])
 
         email_in = self.driver.find_element_by_xpath('//*[@id="email"]')
-        email_in.send_keys('07590521111')
+        email_in.send_keys('')
 
         pw_in = self.driver.find_element_by_xpath('//*[@id="pass"]')
-        pw_in.send_keys('Monkeyzoo94')
+        pw_in.send_keys('')
 
         login_btn = self.driver.find_element_by_xpath('//*[@id="u_0_0"]')
         login_btn.click()
