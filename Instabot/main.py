@@ -84,21 +84,23 @@ class InstaBot():
                 # element = self.driver.find_element_by_xpath(buttonString)
                 # self.driver.execute_script("return arguments[0].scrollIntoView(true);", element)
                 #pressfollow
+                
                 followers_btn4 = self.driver.find_element_by_xpath(buttonString)
                 followers_btn4.click()
                 sleep(0.4)
                 #close unfollow window if you click someone you already follow
-                try:
-                    x = self.driver.find_element_by_xpath('/html/body/div[6]/div/div/div/div[3]/button[2]')
+                x = self.driver.find_element_by_xpath('/html/body/div[6]/div/div/div/div[3]/button[2]')
+
+                if x:
                     x.click()
-                except:
-                    print("error clicking off unfollow popup")
+                    #close follower window
+                    closeButton = self.driver.find_element_by_xpath('/html/body/div[5]/div/div/div[1]/div/div[2]/button/div/svg')
+                    closeButton.click()
             except:
                 print("error with button ::: " + buttonString)
+            
+            
 
-            #close follower window
-            closeButton = self.driver.find_element_by_xpath('/html/body/div[5]/div/div/div[1]/div/div[2]/button/div/svg')
-            closeButton.click()
 
             sleep(1)
 
@@ -136,6 +138,6 @@ bot = InstaBot()
 bot.start()
 bot.close_popup()
 bot.login()
-for i in range(7, 100):
+for i in range(1, 100):
     bot.myFollowers(i)
     bot.startLiking()
