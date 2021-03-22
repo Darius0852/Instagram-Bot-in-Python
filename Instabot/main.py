@@ -8,8 +8,10 @@ chrome_options = webdriver.ChromeOptions()
 prefs = {"profile.default_content_setting_values.notifications" : 2}
 chrome_options.add_experimental_option("prefs",prefs)
 
+
 class InstaBot():
     def __init__(self):
+        self.driver = webdriver.Chrome('/usr/local/bin/chromedriver')
         self.driver = webdriver.Chrome(chrome_options=chrome_options)
 
     def start(self):
@@ -34,6 +36,8 @@ class InstaBot():
 
         sleep(5)
 
+    def myFollowers(self, myFollower):
+
         profile_icon_btn = self.driver.find_element_by_xpath('//*[@id="react-root"]/section/nav/div[2]/div/div/div[3]/div/div[5]/span')
         profile_icon_btn.click()
 
@@ -50,10 +54,12 @@ class InstaBot():
         sleep(5)
 
         #go to your first follower (or change 'Li[]' value to whatever you want)
-        followers_btn2 = self.driver.find_element_by_xpath('/html/body/div[5]/div/div/div[2]/ul/div/li[5]/div/div[2]/div[1]/div/div/span/a')
+        followers_btn2 = self.driver.find_element_by_xpath('/html/body/div[5]/div/div/div[2]/ul/div/li[' + str(myFollower) + ']/div/div[2]/div[1]/div/div/span/a')
         followers_btn2.click()
 
         sleep(5)
+
+    def startLiking(self):
 
         #save the number of followers they have to variable
         elem = self.driver.find_element_by_xpath('/html/body/div[1]/section/main/div/header/section/ul/li[2]/a/span')
@@ -70,7 +76,7 @@ class InstaBot():
 
         sleep(2)
 
-        for i in range(2, followerCountInt):
+        for i in range(1, 6):
 
             try:
                 buttonString = '/html/body/div[5]/div/div/div[2]/ul/div/li[' + str(i) + ']/div/div[3]/button'
@@ -89,6 +95,10 @@ class InstaBot():
                     print("error clicking off unfollow popup")
             except:
                 print("error with button ::: " + buttonString)
+
+            #close follower window
+            closeButton = self.driver.find_element_by_xpath('/html/body/div[5]/div/div/div[1]/div/div[2]/button/div/svg')
+            closeButton.click()
 
             sleep(1)
 
@@ -121,28 +131,11 @@ class InstaBot():
         popup_3 = self.driver.find_element_by_xpath('/html/body/div[2]/div/div/div/div[2]/button[1]')
         popup_3.click()
 
-    def close_match(self):
-        match_popup = self.driver.find_element_by_xpath('//*[@id="modal-manager-canvas"]/div/div/div[1]/div/div[3]/a')
-        match_popup.click()
-    
-    def clickMatch(self):
-
-        for a in range(2, 100):
-            
-            str(a)
-            btn = self.driver.find_element_by_xpath('//*[@id="matchListNoMessages"]/div[1]/div[' + a + '2]/a')
-            btn.click()
-
-            sleep(3)
-
-            textBox = self.driver.find_element_by_xpath('//*[@id="chat-text-area"]')
-            testBox.send_keys('Hola ')
-            sendButton = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div/div[1]/div/div/div[3]/form/button')
-            sendButton.click()
-
-
 
 bot = InstaBot()
 bot.start()
 bot.close_popup()
 bot.login()
+for i in range(7, 100):
+    bot.myFollowers(i)
+    bot.startLiking()
